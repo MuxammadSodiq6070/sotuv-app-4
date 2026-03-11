@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="dark" lang="uz">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shtrix-kod skanerlash oynasi</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- BARCODE SCANNER -->
+    <script src="https://unpkg.com/quagga/dist/quagga.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: "Manrope", sans-serif;
+            background: #101822;
+            color: white;
+        }
+
+        #camera {
+            position: absolute;
+            inset: 0;
+            object-fit: cover;
+        }
+
+        .scan-region {
+            position: absolute;
+            inset: 0;
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.6);
+            border-radius: 2rem;
+        }
+
+        .scan-line {
+            height: 2px;
+            background: #10b981;
+            box-shadow: 0 0 15px 2px #10b981;
+            width: 100%;
+            position: absolute;
+            animation: scan 2.5s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+
+            0%,
+            100% {
+                top: 0%;
+            }
+
+            50% {
+                top: 100%;
+            }
+        }
+
+        .corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: #10b981;
+            border-width: 4px;
+            border-style: solid;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <header class="p-6 flex items-center justify-between">
+        <div></div>
+        <h1 class="text-sm font-bold uppercase tracking-widest">Barcode Scan</h1>
+        <div></div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center">
+
+        <div class="relative w-[280px] h-[180px] overflow-hidden rounded-2xl">
+
+            <!-- CAMERA -->
+            <div id="camera"></div>
+
+            <div class="scan-region"></div>
+            <div class="scan-line"></div>
+
+            <div class="corner top-0 left-0 border-b-0 border-r-0"></div>
+            <div class="corner top-0 right-0 border-b-0 border-l-0"></div>
+            <div class="corner bottom-0 left-0 border-t-0 border-r-0"></div>
+            <div class="corner bottom-0 right-0 border-t-0 border-l-0"></div>
+
+        </div>
+
+    </main>
+
+    <footer class="p-6 text-center text-sm text-gray-400">
+        Shtrix-kodni ramka ichiga olib keling
+    </footer>
+
+    <script>
+
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#camera'),
+                constraints: {
+                    facingMode: "environment"
+                }
+            },
+            decoder: {
+                readers: [
+                    "ean_reader",
+                    "ean_13_reader",
+                    "code_128_reader",
+                    "upc_reader"
+                ]
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+                return
+            }
+            Quagga.start();
+        });
+
+        Quagga.onDetected(function (result) {
+
+            let barcode = result.codeResult.code;
+
+            console.log("Barcode:", barcode);
+
+            alert("Topildi: " + barcode);
+
+            /* backendga yuborish */
+
+            fetch("/scan-barcode/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    barcode: barcode
+                })
+            })
+
+        });
+
+    </script>
+
+</body>
+
+</html>
