@@ -23,8 +23,12 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
 
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in env(
+        "CSRF_TRUSTED_ORIGINS",
+        default="https://vinihew105devlugcom.pythonanywhere.com"
+    ).split(",")
+]
 # Application definition
 
 INSTALLED_APPS = [
