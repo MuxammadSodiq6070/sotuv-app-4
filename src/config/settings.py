@@ -150,6 +150,11 @@ AUTH_USER_MODEL = "user.User"
 # CORS_ALLOWED_ORIGINS = [o.strip() for o in env("CORS_ALLOWED_ORIGINS").split(",")]
 # CSRF_TRUSTED_ORIGINS = [o.strip() for o in env("CSRF_TRUSTED_ORIGINS").split(",")]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://vinihew105devlugcom.pythonanywhere.com"
+]
+
+
 if not DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
     CSRF_COOKIE_SECURE = True
