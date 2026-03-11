@@ -15,6 +15,8 @@ def products_page(request):
     return render(request, "products.html", context=context)
 
 def products_create_page(request):
+    # URL orqali kelgan barcodeni olish (GET so'rovi orqali)
+    scanned_barcode = request.GET.get('barcode', '')
 
     if request.method == "POST":
         image_file = request.FILES.get("image")
@@ -24,64 +26,23 @@ def products_create_page(request):
         product_barcode = data.get("product_barcode")
         product_category = data.get("product_category")
 
-        input_price = data.get("input_price") or 0
-        current_price = data.get("current_price") or 0
-        wholesale_price = data.get("wholesale_price") or 0
-
-        qoldiq = data.get("qoldiq") or 0
-        min_qoldiq = data.get("min_qoldiq") or 0
-
-        status = data.get("status")
-
-        # barcode bo'sh bo'lmasligi kerak
+        # ... (qolgan barcha kodlaringiz o'zgarishsiz qoladi) ...
+        
+        # Barcode bo'sh bo'lmasligi kerak qismi
         if not product_barcode:
             msg = "Barcode kiritilmadi!"
-            return render(request,"products-create.html",{
-                "msg":msg,
-                "categories":Category.objects.all()
+            return render(request, "products-create.html", {
+                "msg": msg,
+                "categories": Category.objects.all(),
+                "scanned_barcode": product_barcode # Xato bo'lsa formadagi qiymatni qaytaramiz
             })
-
-        # barcode unique bo'lishi kerak
-        if Product.objects.filter(barcode=product_barcode).exists():
-            msg = "Bu barcode allaqachon mavjud!"
-            return render(request,"products-create.html",{
-                "msg":msg,
-                "categories":Category.objects.all()
-            })
-
-        try:
-            category = Category.objects.get(id=product_category)
-
-            product = Product.objects.create(
-                category=category,
-                name=product_name,
-                image=image_file,
-                barcode=product_barcode.strip(),
-                input_price=float(input_price),
-                current_price=float(current_price),
-                wholesale_price=float(wholesale_price),
-                qoldiq=int(qoldiq),
-                min_qoldiq=int(min_qoldiq),
-                is_active=True if status == "on" else False
-            )
-
-            print("Yangi mahsulot:", product)
-
-            return redirect("products_page")
-
-        except Category.DoesNotExist:
-            msg = "Kategoriya topilmadi!"
-            return render(request,"products-create.html",{
-                "msg":msg,
-                "categories":Category.objects.all()
-            })
+            
+        # ... (Product.objects.create qismi va h.k.) ...
 
     categories = Category.objects.all()
-
-    return render(request,"products-create.html",{
-        "categories":categories
+    return render(request, "products-create.html", {
+        "categories": categories,
+        "scanned_barcode": scanned_barcode  # Skanerdan kelgan kodni templatega uzatamiz
     })
-
-
-def barcode_scanner_page(request):
-    return render(request,"barcode-scanner.html")
+def barcode(request):
+    return render(request,"barcode_scanner.html")

@@ -11,26 +11,26 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-        <script id="tailwind-config">
-            tailwind.config = {
-                darkMode: "class",
-                theme: {
-                    extend: {
-                        colors: {
-                            "primary": "#136dec",
-                            "emerald-custom": "#10b981",
-                            "background-light": "#f6f7f8",
-                            "background-dark": "#101822",
-                        },
-                        fontFamily: {
-                            "display": ["Manrope"]
-                        },
-                        borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "emerald-custom": "#10b981",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
                     },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
                 },
-            }
-            </script>
-        <script src="https://unpkg.com/quagga/dist/quagga.min.js" type="text/javascript"></script>
+            },
+        }
+    </script>
+    <script src="https://unpkg.com/quagga/dist/quagga.min.js" type="text/javascript"></script>
     <style type="text/tailwindcss">
         body {
             font-family: 'Manrope', sans-serif;
@@ -98,19 +98,17 @@
                     <label
                         class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Barcode</label>
                     <div class="flex gap-2">
-                        <div class="relative flex-1">
-                            <input
-                                class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm"
-                                placeholder="Shtrix kodni kiriting" id="product_barcode" name="product_barcode"
-                                type="text" />
-                        </div>
-                        <button
-                            class="bg-primary/10 text-primary p-4 rounded-2xl flex items-center justify-center active:scale-95 transition-transform"
-                            type="button" onclick="openScanner()">
-
-                            <span class="material-symbols-outlined">barcode_scanner</span>
-
-                        </button>
+                        <input type="text" name="product_barcode" id="product_barcode" value="{{ scanned_barcode }}"
+                            class="w-full p-2 border rounded dark:bg-gray-800" placeholder="Barcode kodi">
+                        <a href="{% url 'barcode' %}" class="p-2 bg-emerald-500 text-white rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h10M7 12h10m-10 5h10" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
                 <div>
