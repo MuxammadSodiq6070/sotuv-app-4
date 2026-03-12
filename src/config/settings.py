@@ -19,7 +19,7 @@ DEBUG = bool(env("DEBUG"))
 
 import os
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
 
