@@ -5,7 +5,7 @@ import environ
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(file).resolve().parent.parent
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -17,20 +17,9 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(env("DEBUG"))
 
-import os
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
 
 
-
-
-
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
-
-CSRF_TRUSTED_ORIGINS = [
-    o.strip() for o in env(
-        "CSRF_TRUSTED_ORIGINS",
-        default="https://vinihew105devlugcom.pythonanywhere.com"
-    ).split(",")
-]
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'django.contrib.humanize',
-        
+
     "apps.users",
     "apps.customer",
     "apps.order",
@@ -146,16 +135,11 @@ if DEBUG:
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "users.User"
+# AUTH_USER_MODEL = "user.User"
 
 
-# CORS_ALLOWED_ORIGINS = [o.strip() for o in env("CORS_ALLOWED_ORIGINS").split(",")]
-# CSRF_TRUSTED_ORIGINS = [o.strip() for o in env("CSRF_TRUSTED_ORIGINS").split(",")]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://vinihew105devlugcom.pythonanywhere.com"
-]
-
+CORS_ALLOWED_ORIGINS = [o.strip() for o in env("CORS_ALLOWED_ORIGINS").split(",")]
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in env("CSRF_TRUSTED_ORIGINS").split(",")]
 
 if not DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
@@ -163,6 +147,3 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = "None"
     SESSION_COOKIE_SAMESITE = "None"
-
-
-DEBUG = True
