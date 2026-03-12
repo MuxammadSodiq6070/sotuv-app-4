@@ -19,8 +19,11 @@ DEBUG = bool(env("DEBUG"))
 
 import os
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS")
-
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "vinihew105devlugcom.pythonanywhere.com",
+]
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
 
 CSRF_TRUSTED_ORIGINS = [
