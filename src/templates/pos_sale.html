@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html class="dark" lang="uz">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Sotuv (POS) - Fixed Alignment</title>
+    <title>Sotuv (POS) - Ko'p Mijozli Savatcha</title>
 
-    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
     <script>
         tailwind.config = {
@@ -18,11 +15,20 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1d4ed8",
+                        "primary": "#136dec",
                         "emerald-accent": "#10b981",
-                        "background-dark": "#0f172a",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
                     },
-                    fontFamily: { "display": ["Manrope", "sans-serif"] }
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        full: "9999px"
+                    }
                 },
             },
         }
@@ -30,147 +36,70 @@
 
     <style type="text/tailwindcss">
         @layer base {
-            body { 
-                font-family: 'Manrope', sans-serif; 
-                @apply bg-[#0f172a] text-slate-100;
+            body {
+                font-family: 'Manrope', sans-serif;
+                -webkit-tap-highlight-color: transparent;
+                @apply bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col;
             }
         }
-        
-        /* 1. ASOSIY TUZATISH: Kutubxona ramkasini bizning ramka bilan birlashtirish */
-        #reader { border: none !important; }
-        
-        /* Kutubxona chizadigan ichki kvadrat (haqiqiy skaner maydoni) */
-        #reader__scan_region {
-            @apply flex items-center justify-center !important;
-        }
-
-        /* Kutubxona ramkasining o'zini bizning style'ga moslash */
-        #reader__scan_region > div {
-            border: 2px solid rgba(255,255,255,0.1) !important;
-            border-radius: 1.5rem !important;
-            position: relative !important;
-        }
-
-        /* Skaner chizig'ini kutubxona ramkasi ichiga majburan tiqish */
-        #reader__scan_region > div::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(to bottom, transparent, #10b981, transparent);
-            animation: scan-move 2s linear infinite;
-        }
-
-        @keyframes scan-move {
-            0% { top: 0%; }
-            100% { top: 100%; }
-        }
-
-        #reader__dashboard { display: none !important; }
-        #reader video { object-fit: cover !important; }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Kutubxonaning xunuk ramkasini shaffof qilish */
-    #reader__scan_region {
-        @apply flex items-center justify-center !important;
-    }
+        /* Scanner custom overlay */
+        .scanner-overlay {
+            background: linear-gradient(rgba(0,0,0,0) 0%, rgba(19, 109, 236, 0.25) 50%, rgba(0,0,0,0) 100%);
+            animation: scan 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
 
-    /* Haqiqiy skaner maydoni (Kutubxonaniki) */
-    #reader__scan_region > div {
-        border: none !important; /* Kutubxona chizig'ini yo'qotadi */
-        background: transparent !important;
-        position: relative !important;
-    }
+        @keyframes scan {
+            0%   { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
 
-    /* Sizning vizual ramkangizni (Overlay) kutubxona ramkasi ichiga majburan tiqamiz */
-    .custom-overlay-container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 280px; /* JS dagi qrbox width bilan bir xil */
-        height: 160px; /* JS dagi qrbox height bilan bir xil */
-        z-index: 30;
-        pointer-events: none;
-    }
+        /* html5-qrcode ni yashirish va o‘z overlay qo‘yish */
+        #reader { border: none !important; }
+        #reader__dashboard { display: none !important; }
+        #reader__scan_region > div {
+            border: none !important;
+            background: transparent !important;
+        }
+        #reader video {
+            object-fit: cover !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
 
-    /* Kutubxonaning boshqa keraksiz elementlari */
-    #reader__dashboard, #reader img { display: none !important; }
-    #reader video { object-fit: cover !important; }
-
-
-    @layer base {
-        body { @apply bg-[#0f172a] text-slate-100; }
-    }
-
-    /* 1. KUTUBXONA RAMKASINI "INVISIBLE" QILAMIZ */
-    #reader { border: none !important; }
-    #reader__scan_region { 
-        @apply flex items-center justify-center !important;
-    }
-    /* Kutubxona chizig'ini yashiramiz, lekin u o'sha yerda ishlayveradi */
-    #reader__scan_region > div {
-        border: none !important; 
-        background: transparent !important;
-    }
-    #reader__dashboard { display: none !important; }
-    #reader video { object-fit: cover !important; width: 100% !important; height: 100% !important; }
-
-    /* 2. BIZNING PROFESSIONAL RAMKA */
-    .scanner-container {
-        @apply absolute inset-0 flex items-center justify-center z-20 pointer-events-none;
-    }
-    
-    /* Bu ramka o'lchami JS dagi qrbox bilan bir xil bo'lishi shart */
-    .scanner-target {
-        width: 280px;
-        height: 160px;
-        @apply relative border border-white/5 rounded-[2rem] backdrop-blur-[1px];
-        background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-    }
-
-    /* Lazer nuri */
-    .laser-line {
-        @apply absolute left-0 w-full h-[2px] z-30;
-        background: linear-gradient(to right, transparent, #10b981, transparent);
-        box-shadow: 0 0 15px 1px rgba(16, 185, 129, 0.5);
-        animation: laser-move 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    @keyframes laser-move {
-        0%, 100% { top: 5%; opacity: 0.3; }
-        50% { top: 95%; opacity: 1; }
-    }
-
-    /* Burchaklarni yanada nafisroq qilamiz */
-    .corner { @apply absolute size-8 border-emerald-accent; }
-    .t-l { @apply -top-1 -left-1 border-t-4 border-l-4 rounded-tl-2xl; }
-    .t-r { @apply -top-1 -right-1 border-t-4 border-r-4 rounded-tr-2xl; }
-    .b-l { @apply -bottom-1 -left-1 border-b-4 border-l-4 rounded-bl-2xl; }
-    .b-r { @apply -bottom-1 -right-1 border-b-4 border-r-4 rounded-br-2xl; }
-</style>
+    <style>
+        body { min-height: max(884px, 100dvh); }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body>
 
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-    <header
-        class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-xl px-6 pt-10 pb-4 flex items-center justify-between border-b border-white/5">
+    <header class="sticky top-0 z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-xl px-6 pt-12 pb-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center gap-4">
-            <button class="size-10 flex items-center justify-center rounded-full bg-slate-800/50"
-                onclick="window.history.back()">
-                <span class="material-symbols-outlined text-xl">arrow_back_ios_new</span>
+            <button class="size-10 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800" onclick="window.history.back()">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
             </button>
             <h1 class="text-lg font-bold tracking-tight">Sotuv (POS)</h1>
         </div>
-        <button id="torch-btn"
-            class="size-10 flex items-center justify-center rounded-xl bg-slate-800/50 text-slate-400">
-            <span class="material-symbols-outlined text-xl">flashlight_on</span>
-        </button>
+        <div class="flex items-center gap-2">
+            <button id="torch-btn" class="size-10 flex items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                <span class="material-symbols-outlined">flashlight_on</span>
+            </button>
+            <button class="size-10 flex items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </div>
     </header>
 
+    <main class="flex-1 flex flex-col overflow-hidden">
+
+        <!-- Scanner qismi -->
     <main class="flex-1 flex flex-col">
         <section class="relative h-82 bg-black overflow-hidden border-b border-white/5">
             <div id="reader" class="absolute inset-0 z-10 opacity-80"></div>
@@ -201,78 +130,151 @@
             </div>
         </section>
 
-        <section class="flex-1 flex flex-col px-6 pt-6 pb-6">
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center gap-2">
-                    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest">Savatcha</h2>
-                    <span id="cart-count"
-                        class="bg-primary/20 text-blue-400 px-3 py-1 rounded-lg text-[10px] font-black">0</span>
+        <!-- Mijozlar tab bar -->
+        <div class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800">
+            <div class="flex items-center gap-2.5 px-5 py-3 overflow-x-auto hide-scrollbar">
+                <button class="flex-shrink-0 px-5 py-2 rounded-full text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 flex items-center gap-1.5 active:scale-95">
+                    <span class="material-symbols-outlined text-sm">person</span> Mijoz 1
+                </button>
+                <button class="flex-shrink-0 px-5 py-2 rounded-full text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 active:scale-95">
+                    <span class="material-symbols-outlined text-sm">person</span> Mijoz 2
+                </button>
+                <button class="flex-shrink-0 px-5 py-2 rounded-full text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 active:scale-95">
+                    <span class="material-symbols-outlined text-sm">person</span> Mijoz 3
+                </button>
+                <button class="flex-shrink-0 px-5 py-2 rounded-full text-xs font-bold bg-emerald-accent/10 text-emerald-accent border border-emerald-accent/30 flex items-center gap-1 active:scale-95">
+                    <span class="material-symbols-outlined text-sm">add</span> Yangi
+                </button>
+            </div>
+        </div>
+
+        <!-- Savatcha qismi -->
+        <section class="flex-1 flex flex-col px-5 pt-5 pb-40">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-2.5">
+                    <h2 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Savat</h2>
+                    <span id="cart-count" class="size-5 flex items-center justify-center bg-primary/20 text-primary text-[11px] font-black rounded-full">0</span>
                 </div>
-                <button onclick="clearCart()"
-                    class="text-xs font-bold text-red-400 flex items-center gap-1 transition-colors">
-                    <span class="material-symbols-outlined text-lg">delete_sweep</span> Tozalash
+                <button onclick="clearCart()" class="text-xs font-bold text-red-500 flex items-center gap-1 active:opacity-70">
+                    <span class="material-symbols-outlined text-base">delete_sweep</span> Tozalash
                 </button>
             </div>
 
-            <div id="cart-items" class="flex-1 space-y-3 overflow-y-auto max-h-[35vh] hide-scrollbar pb-4">
+            <div id="cart-items" class="space-y-3 overflow-y-auto flex-1 hide-scrollbar pb-4 max-h-[45vh]">
+                <!-- JS orqali to‘ldiriladi -->
             </div>
 
-            <div class="mt-auto py-4 space-y-4">
-                <div
-                    class="bg-slate-800/40 border border-white/5 p-5 rounded-[2.5rem] flex justify-between items-center">
-                    <span class="text-sm font-semibold text-slate-400 ml-2">Jami:</span>
-                    <div class="text-right">
-                        <span id="total-price" class="text-3xl font-black text-emerald-accent">0</span>
-                        <span class="text-xs font-bold text-emerald-500/60 ml-1">UZS</span>
+            <!-- Pastki qism: chegirma, to‘lov turi, jami, tugma -->
+            <div class="mt-auto space-y-5 pb-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest px-1">Chegirma</label>
+                        <div class="relative">
+                            <select class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm font-semibold py-3.5 pl-4 pr-10 appearance-none focus:ring-2 focus:ring-primary/40">
+                                <option>Chegirma yo'q</option>
+                                <option>5% chegirma</option>
+                                <option>10% chegirma</option>
+                                <option>Maxsus - 10 000 so'm</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest px-1">To'lov turi</label>
+                        <div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
+                            <button class="flex-1 py-2.5 text-xs font-bold rounded-lg bg-white dark:bg-slate-700 shadow-sm">Naqd</button>
+                            <button class="flex-1 py-2.5 text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400">Karta</button>
+                        </div>
                     </div>
                 </div>
 
-                <button onclick="processCheckout()"
-                    class="w-full bg-primary text-white font-extrabold py-5 rounded-[2rem] flex items-center justify-center gap-3 shadow-xl shadow-primary/30 active:scale-[0.97] transition-all">
-                    <span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
-                    <span class="text-lg">To'lovni yakunlash</span>
+                <div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 p-5 rounded-3xl">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-slate-500 dark:text-slate-400">Jami:</span>
+                        <span id="total-price-display" class="text-lg font-black text-emerald-accent">0 UZS</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-base font-bold">To'lanadigan:</span>
+                        <span id="total-price" class="text-2xl font-black text-emerald-accent">0 <span class="text-sm font-normal">UZS</span></span>
+                    </div>
+                </div>
+
+                <button onclick="processCheckout()" class="w-full bg-primary hover:bg-blue-600 text-white font-extrabold py-5 rounded-3xl flex items-center justify-center gap-3 shadow-xl shadow-primary/30 active:scale-[0.97] transition-all">
+                    <span class="material-symbols-outlined text-2xl">payments</span>
+                    To'lovni yakunlash
                 </button>
             </div>
         </section>
     </main>
 
+    <!-- Bottom navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50">
+        <div class="bg-white/80 dark:bg-slate-900/90 backdrop-blur-2xl border-t border-slate-200 dark:border-slate-800 pb-9 pt-3 px-6 flex justify-between items-center">
+            <a class="flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400" href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="text-[10px] font-bold">Asosiy</span>
+            </a>
+            <a class="flex flex-col items-center gap-0.5 text-primary" href="#">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">point_of_sale</span>
+                <span class="text-[10px] font-bold">Sotuv</span>
+            </a>
+            <a class="flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400" href="#">
+                <span class="material-symbols-outlined">history</span>
+                <span class="text-[10px] font-bold">Tarix</span>
+            </a>
+            <a class="flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400" href="#">
+                <span class="material-symbols-outlined">person</span>
+                <span class="text-[10px] font-bold">Profil</span>
+            </a>
+        </div>
+    </nav>
+
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-
-
         let cart = [];
         let isScanning = true;
 
         const html5QrCode = new Html5Qrcode("reader");
 
-        // CSS dagi w-[280px] h-[160px] bilan bir xil qilindi
         const qrConfig = {
             fps: 30,
             qrbox: { width: 280, height: 160 },
-            aspectRatio: 1.0
+            aspectRatio: 1.75
         };
 
-        html5QrCode.start({ facingMode: "environment" }, qrConfig, (barcode) => {
-            if (isScanning) {
-                handleNewBarcode(barcode);
-                isScanning = false;
-                setTimeout(() => { isScanning = true; }, 1500);
-            }
-        }).catch(err => console.error(err));
+        html5QrCode.start(
+            { facingMode: "environment" },
+            qrConfig,
+            (decodedText) => {
+                if (isScanning) {
+                    handleNewBarcode(decodedText);
+                    isScanning = false;
+                    setTimeout(() => { isScanning = true; }, 1800);
+                }
+            },
+            (err) => { /* optional error callback */ }
+        ).catch(err => console.error("Start failed", err));
 
         async function handleNewBarcode(barcode) {
-            new Audio('https://www.soundjay.com/buttons/beep-07.wav').play().catch(() => { });
+            new Audio('https://www.soundjay.com/buttons/beep-07a.mp3').play().catch(()=>{});
             try {
                 const response = await fetch(`?barcode=${barcode}`);
                 const data = await response.json();
-                if (data.status === "success") { addToCart(data); }
-            } catch (err) { console.error(err); }
+                if (data.status === "success") {
+                    addToCart(data);
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         function addToCart(product) {
             const existing = cart.find(item => item.id === product.id);
-            if (existing) { existing.qty += 1; }
-            else { cart.push({ ...product, qty: 1 }); }
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
             renderCart();
         }
 
@@ -280,62 +282,102 @@
             const item = cart.find(i => i.id == id);
             if (item) {
                 item.qty += delta;
-                if (item.qty <= 0) cart = cart.filter(i => i.id != id);
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id != id);
+                }
             }
             renderCart();
         }
 
         function renderCart() {
             const container = document.getElementById('cart-items');
+            const countEl  = document.getElementById('cart-count');
+            const totalEl  = document.getElementById('total-price');
+            const totalDisplay = document.getElementById('total-price-display');
+
             if (cart.length === 0) {
-                container.innerHTML = `<div class="flex flex-col items-center justify-center py-10 opacity-20"><span class="material-symbols-outlined text-5xl mb-2">barcode_scanner</span><p class="text-sm italic font-medium">Savat bo'sh</p></div>`;
-                document.getElementById('total-price').innerText = "0";
-                document.getElementById('cart-count').innerText = "0";
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-12 opacity-40">
+                        <span class="material-symbols-outlined text-6xl mb-3">shopping_cart</span>
+                        <p class="text-sm font-medium">Savat bo'sh</p>
+                    </div>`;
+                totalEl.innerText = "0 UZS";
+                totalDisplay.innerText = "0 UZS";
+                countEl.innerText = "0";
                 return;
             }
 
             let html = '';
             let total = 0;
+
             cart.forEach(item => {
-                total += (item.price * item.qty);
+                total += item.price * item.qty;
                 html += `
-                <div class="bg-slate-800/50 p-4 rounded-3xl border border-white/5 flex items-center gap-4">
-                    <div class="flex-1">
-                        <h3 class="text-sm font-bold text-slate-100 truncate">${item.name}</h3>
-                        <p class="text-xs text-emerald-400 font-black mt-0.5">${item.price.toLocaleString()} UZS</p>
+                <div class="bg-white dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-700/50 flex items-center gap-3 shadow-sm">
+                    <div class="size-14 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+                        ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover" alt="${item.name}">` : '<span class="material-symbols-outlined text-3xl text-slate-400">image</span>'}
                     </div>
-                    <div class="flex items-center gap-3 bg-slate-900/80 rounded-2xl p-1.5 border border-white/5">
-                        <button onclick="updateQty(${item.id}, -1)" class="size-8 rounded-xl bg-slate-800 text-white flex items-center justify-center font-black">-</button>
-                        <span class="text-xs font-black min-w-[24px] text-center">${item.qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)" class="size-8 rounded-xl bg-primary text-white flex items-center justify-center font-black">+</button>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-bold line-clamp-1">${item.name}</h3>
+                        <p class="text-xs text-emerald-accent font-semibold mt-0.5">${item.price.toLocaleString()} UZS</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 rounded-xl p-1.5 border border-slate-200 dark:border-slate-700">
+                        <button onclick="updateQty(${item.id}, -1)" class="size-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm">-</button>
+                        <span class="text-sm font-bold min-w-[20px] text-center">${item.qty}</span>
+                        <button onclick="updateQty(${item.id}, 1)" class="size-8 rounded-lg bg-primary text-white shadow-sm">+</button>
                     </div>
                 </div>`;
             });
+
             container.innerHTML = html;
-            document.getElementById('total-price').innerText = total.toLocaleString();
-            document.getElementById('cart-count').innerText = cart.length;
+            totalEl.innerText = total.toLocaleString() + " UZS";
+            totalDisplay.innerText = total.toLocaleString() + " UZS";
+            countEl.innerText = cart.length;
         }
 
         function clearCart() {
-            if (confirm("Savatni tozalash?")) { cart = []; renderCart(); }
+            if (confirm("Savatni tozalashni xohlaysizmi?")) {
+                cart = [];
+                renderCart();
+            }
         }
 
         async function processCheckout() {
-            if (cart.length === 0) return;
+            if (cart.length === 0) {
+                alert("Savat bo'sh!");
+                return;
+            }
+
             const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
             try {
                 const response = await fetch('/order/api/make-sale/', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-                    body: JSON.stringify({ items: cart, total_amount: cart.reduce((a, b) => a + (b.price * b.qty), 0) })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrf
+                    },
+                    body: JSON.stringify({
+                        items: cart,
+                        total_amount: cart.reduce((sum, item) => sum + (item.price * item.qty), 0)
+                    })
                 });
+
                 if (response.ok) {
-                    alert("To'lov yakunlandi!");
-                    cart = []; renderCart();
+                    alert("To'lov muvaffaqiyatli yakunlandi!");
+                    cart = [];
+                    renderCart();
+                } else {
+                    alert("Xatolik yuz berdi");
                 }
-            } catch (err) { alert("Xatolik"); }
+            } catch (err) {
+                alert("Server bilan aloqa xatosi");
+                console.error(err);
+            }
         }
+
+        // Dastlabki render
+        renderCart();
     </script>
 </body>
-
 </html>

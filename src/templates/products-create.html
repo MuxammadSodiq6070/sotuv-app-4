@@ -7,8 +7,9 @@
     <title>Yangi Mahsulot Qo'shish Formasi</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
     <script src="https://unpkg.com/html5-qrcode"></script>
 
     <script id="tailwind-config">
@@ -50,11 +51,13 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 flex flex-col">
-    
-    <header class="sticky top-0 z-30 bg-background-light/80 dark:bg-background-dark/90 backdrop-blur-md px-4 pt-10 pb-4">
+
+    <header
+        class="sticky top-0 z-30 bg-background-light/80 dark:bg-background-dark/90 backdrop-blur-md px-4 pt-10 pb-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <a class="p-2 -ml-2 rounded-full active:bg-slate-200 dark:active:bg-slate-800 transition-colors" href="{% url 'products_page' %}">
+                <a class="p-2 -ml-2 rounded-full active:bg-slate-200 dark:active:bg-slate-800 transition-colors"
+                    href="{% url 'products_page' %}">
                     <span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
                 </a>
                 <h1 class="text-xl font-bold">Yangi mahsulot</h1>
@@ -66,11 +69,12 @@
     <main class="flex-1 px-4 pb-32">
         <form class="space-y-6" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             <div class="mt-4 mb-8">
                 <input type="file" class="hidden" id="import-image" name="image">
                 <label for="import-image">
-                    <div class="w-full aspect-video rounded-3xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 flex flex-col items-center justify-center gap-2 active:bg-slate-100 dark:active:bg-slate-800 transition-colors cursor-pointer overflow-hidden">
+                    <div
+                        class="w-full aspect-video rounded-3xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 flex flex-col items-center justify-center gap-2 active:bg-slate-100 dark:active:bg-slate-800 transition-colors cursor-pointer overflow-hidden">
                         <div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                             <span class="material-symbols-outlined text-3xl">add_a_photo</span>
                         </div>
@@ -81,24 +85,32 @@
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Mahsulot nomi</label>
-                    <input class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm" placeholder="Masalan: Olma sharbati" type="text" name="product_name" required />
+                    <label
+                        class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Mahsulot
+                        nomi</label>
+                    <input
+                        class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm"
+                        placeholder="Masalan: Olma sharbati" type="text" name="product_name" required />
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Barcode</label>
+                    <label
+                        class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Barcode</label>
                     <div class="flex gap-2">
-                        <input type="text" name="product_barcode" id="product_barcode" 
-                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm" placeholder="Barcode kodi">
-                        
-                        <button type="button" onclick="openScanner()" class="aspect-square bg-emerald-custom text-white rounded-2xl flex items-center justify-center px-4 shadow-lg active:scale-95 transition-all">
+                        <input type="text" name="product_barcode" id="product_barcode"
+                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm"
+                            placeholder="Barcode kodi">
+
+                        <button type="button" onclick="openScanner()"
+                            class="aspect-square bg-emerald-custom text-white rounded-2xl flex items-center justify-center px-4 shadow-lg active:scale-95 transition-all">
                             <span class="material-symbols-outlined">barcode_scanner</span>
                         </button>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Kategoriya</label>
+                    <label
+                        class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Kategoriya</label>
                     <div class="relative">
                         <select name="product_category" required
                             class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm appearance-none">
@@ -107,7 +119,8 @@
                             <option value="{{category.id}}">{{category.name}}</option>
                             {% endfor %}
                         </select>
-                        <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">expand_more</span>
+                        <span
+                            class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">expand_more</span>
                     </div>
                 </div>
             </div>
@@ -118,16 +131,27 @@
                 </h2>
                 <div class="grid grid-cols-2 gap-3">
                     <div class="col-span-2">
-                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Tannarx</label>
-                        <input class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm font-semibold" placeholder="0.00" type="number" name="input_price" />
+                        <label
+                            class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Tannarx</label>
+                        <input
+                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm font-semibold"
+                            placeholder="0.00" type="number" name="input_price" />
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Sotuv narxi</label>
-                        <input class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-emerald-custom shadow-sm font-semibold text-emerald-custom" placeholder="0.00" type="number" name="current_price" />
+                        <label
+                            class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Sotuv
+                            narxi</label>
+                        <input
+                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-emerald-custom shadow-sm font-semibold text-emerald-custom"
+                            placeholder="0.00" type="number" name="current_price" />
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Ulgurji narx</label>
-                        <input class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm font-semibold" placeholder="0.00" type="number" name="wholesale_price" />
+                        <label
+                            class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Ulgurji
+                            narx</label>
+                        <input
+                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm font-semibold"
+                            placeholder="0.00" type="number" name="wholesale_price" />
                     </div>
                 </div>
             </div>
@@ -138,19 +162,29 @@
                 </h2>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Dastlabki soni</label>
-                        <input class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm" placeholder="0" type="number" name="qoldiq" />
+                        <label
+                            class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Dastlabki
+                            soni</label>
+                        <input
+                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-primary shadow-sm"
+                            placeholder="0" type="number" name="qoldiq" />
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Minimal qoldiq</label>
-                        <input class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-red-500 shadow-sm" placeholder="5" type="number" name="min_qoldiq" />
+                        <label
+                            class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Minimal
+                            qoldiq</label>
+                        <input
+                            class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-4 px-4 text-base focus:ring-2 focus:ring-red-500 shadow-sm"
+                            placeholder="5" type="number" name="min_qoldiq" />
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800/50 p-4 rounded-2xl flex items-center justify-between shadow-sm border border-slate-100 dark:border-slate-800">
+            <div
+                class="bg-white dark:bg-slate-800/50 p-4 rounded-2xl flex items-center justify-between shadow-sm border border-slate-100 dark:border-slate-800">
                 <div class="flex items-center gap-3">
-                    <div class="size-10 rounded-xl bg-emerald-custom/10 text-emerald-custom flex items-center justify-center">
+                    <div
+                        class="size-10 rounded-xl bg-emerald-custom/10 text-emerald-custom flex items-center justify-center">
                         <span class="material-symbols-outlined">check_circle</span>
                     </div>
                     <div>
@@ -160,12 +194,16 @@
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input checked class="sr-only peer" type="checkbox" name="status" />
-                    <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-custom"></div>
+                    <div
+                        class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-custom">
+                    </div>
                 </label>
             </div>
 
-            <div class="fixed bottom-0 left-0 right-0 bg-background-light/80 dark:bg-background-dark/90 backdrop-blur-xl p-4 border-t border-slate-200 dark:border-slate-800 z-40">
-                <button type="submit" class="w-full bg-primary text-white py-4 rounded-2xl font-bold text-base shadow-lg shadow-primary/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+            <div
+                class="fixed bottom-0 left-0 right-0 bg-background-light/80 dark:bg-background-dark/90 backdrop-blur-xl p-4 border-t border-slate-200 dark:border-slate-800 z-40">
+                <button type="submit"
+                    class="w-full bg-primary text-white py-4 rounded-2xl font-bold text-base shadow-lg shadow-primary/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined">save</span> Saqlash
                 </button>
             </div>
@@ -174,45 +212,52 @@
 
     <div id="scannerModal" class="fixed inset-0 z-[100] bg-black hidden flex flex-col">
         <div id="reader" class="flex-1"></div>
-        
+
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div class="relative w-64 h-40 border-2 border-white/20 rounded-2xl">
-                <div class="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-emerald-custom rounded-tl-lg"></div>
-                <div class="absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 border-emerald-custom rounded-tr-lg"></div>
-                <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 border-emerald-custom rounded-bl-lg"></div>
-                <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 border-emerald-custom rounded-br-lg"></div>
+                <div class="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-emerald-custom rounded-tl-lg">
+                </div>
+                <div class="absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 border-emerald-custom rounded-tr-lg">
+                </div>
+                <div
+                    class="absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 border-emerald-custom rounded-bl-lg">
+                </div>
+                <div
+                    class="absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 border-emerald-custom rounded-br-lg">
+                </div>
             </div>
         </div>
 
-        <button onclick="closeScanner()" class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-10 py-3 rounded-full font-bold transition-all active:scale-90">
+        <button onclick="closeScanner()"
+            class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-10 py-3 rounded-full font-bold transition-all active:scale-90">
             Yopish
         </button>
     </div>
 
     <script>
-        let html5QrCode;
+
+        let html5QrCode; // global
 
         async function openScanner() {
             const modal = document.getElementById('scannerModal');
             modal.classList.remove('hidden');
-            
+
             html5QrCode = new Html5Qrcode("reader");
-            
-            const config = { 
-                fps: 20, 
+
+            const config = {
+                fps: 20,
                 qrbox: { width: 250, height: 150 },
-                aspectRatio: 1.0 
+                aspectRatio: 1.0
             };
 
             try {
                 await html5QrCode.start(
-                    { facingMode: "environment" }, 
-                    config, 
+                    { facingMode: "environment" },
+                    config,
                     (decodedText) => {
                         document.getElementById('product_barcode').value = decodedText;
-                        // Ovozli signal (agar brauzer ruxsat bersa)
                         const beep = new Audio('https://www.soundjay.com/buttons/beep-07.wav');
-                        beep.play().catch(() => {});
+                        beep.play().catch(() => { });
                         closeScanner();
                     }
                 );
@@ -222,7 +267,6 @@
                 closeScanner();
             }
         }
-
         async function closeScanner() {
             const modal = document.getElementById('scannerModal');
             if (html5QrCode && html5QrCode.isScanning) {
@@ -232,11 +276,11 @@
         }
 
         // Rasm yuklanganda preview ko'rsatish (Ixtiyoriy lekin foydali)
-        document.getElementById('import-image').addEventListener('change', function(e) {
+        document.getElementById('import-image').addEventListener('change', function (e) {
             const label = this.nextElementSibling.querySelector('div');
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = function (event) {
                     label.innerHTML = `<img src="${event.target.result}" class="w-full h-full object-cover">`;
                 };
                 reader.readAsDataURL(this.files[0]);
@@ -244,4 +288,5 @@
         });
     </script>
 </body>
+
 </html>
